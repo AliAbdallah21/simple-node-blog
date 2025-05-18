@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Blog</title>
+    <link rel="stylesheet" href="/styles/main.css">
+</head>
+<body>
+    <%- include('partials/header.ejs') %>
+
+    <h1>My Blog</h1>
+
+    <form action="/new" method="GET">
+        <button type="submit" class="btn btn-primary new-post-btn">Create New Post</button>
+    </form>
+
+    <!-- Display Posts -->
+    <div class="posts-container">       
+        <% posts.forEach((post, index) => { %>
+            <div class="post-card">
+                <h2 class="post-title"><%= post.title %></h2>
+                <p class="post-content"><%= post.content %></p>
+                
+                <div class="post-actions">
+                    <form action="/edit" method="GET">
+                        <input type="hidden" name="postId" value="<%= index %>">
+                        <button type="submit" class="btn btn-edit">Edit</button>
+                    </form>
+
+                    <form action="/delete" method="post" onsubmit="return confirm('Are you sure you want to delete this post?')">
+                        <input type="hidden" name="postId" value="<%= index %>">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </div>
+            </div>
+        <% }); %>
+    </div>
+
+    <%- include('partials/footer.ejs') %>
+</body>
+</html>
